@@ -43,6 +43,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 
+#include <rthw.h>
+#include <rtthread.h>
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */

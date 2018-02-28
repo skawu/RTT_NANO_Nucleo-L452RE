@@ -16,5 +16,7 @@
  */
 #define CMSIS_device_header "stm32l4xx.h"
 
+#define RTE_FINSH_USING_MSH
+#define RTE_USING_DEVICE
 
 #endif /* RTE_COMPONENTS_H */

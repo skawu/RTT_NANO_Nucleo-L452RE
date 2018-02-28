@@ -52,9 +52,9 @@ UART_HandleTypeDef huart2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
+//void SystemClock_Config(void);
+//static void MX_GPIO_Init(void);
+//static void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -79,22 +79,22 @@ int main(void)
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+//  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+//  SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
+//  MX_GPIO_Init();
+//  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -108,9 +108,10 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 		HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
-		HAL_Delay(500);
+		rt_thread_delay(RT_TICK_PER_SECOND / 2);
 		HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_SET);
-		HAL_Delay(500);
+		rt_thread_delay(RT_TICK_PER_SECOND / 2);
+		HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, GPIO_PIN_RESET);
   }
   /* USER CODE END 3 */
 
@@ -174,7 +175,7 @@ void SystemClock_Config(void)
 
     /**Configure the Systick interrupt time 
     */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / RT_TICK_PER_SECOND);
 
     /**Configure the Systick 
     */
@@ -182,10 +183,11 @@ void SystemClock_Config(void)
 
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+	
 }
 
 /* USART2 init function */
-static void MX_USART2_UART_Init(void)
+int MX_USART2_UART_Init(void)
 {
 
   huart2.Instance = USART2;
@@ -202,8 +204,10 @@ static void MX_USART2_UART_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
+	
+	return 0;
 }
+INIT_BOARD_EXPORT(MX_USART2_UART_Init);
 
 /** Configure pins as 
         * Analog 
@@ -212,7 +216,7 @@ static void MX_USART2_UART_Init(void)
         * EVENT_OUT
         * EXTI
 */
-static void MX_GPIO_Init(void)
+int MX_GPIO_Init(void)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
@@ -239,8 +243,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD4_GPIO_Port, &GPIO_InitStruct);
 
+	return 0;
 }
-
+INIT_BOARD_EXPORT(MX_GPIO_Init);
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */

@@ -7,7 +7,8 @@ del *.obj /s
 del *.o /s
 del *.d /s
 del *.crf /s
-del *.sct /s
 del *.dep /s
 del *.axf /s
+del *.htm /s
+del *.scvd /s
 exit
